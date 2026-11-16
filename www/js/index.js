@@ -144,6 +144,13 @@ btnNuevaCategoria.addEventListener("click", abrirDialogoCategoria);
 btnCancelarCategoria.addEventListener("click", cerrarDialogoCategoria);
 btnAceptarCategoria.addEventListener("click", anadirCategoria);
 
+// EXTRA 5: validar también al SALIR del campo.
+// NUEVO (no está en el lab): el evento "blur" salta cuando un cuadro de texto pierde el foco
+// (el usuario hace clic en otro sitio o pulsa Tab). Se usa igual que "click" (lección 50).
+txtCategoria.addEventListener("blur", () => {
+    validarCampo(txtCategoria, 3, lErrorCategoria);
+});
+
 
 // ===== 7. OBLIGATORIO 2: eliminar una categoría =====
 

@@ -118,6 +118,21 @@ async function guardarSite() {
 
 btnGuardar.addEventListener("click", guardarSite);
 
+// EXTRA 5: validar cada campo obligatorio al SALIR de él.
+// NUEVO (no está en el lab): el evento "blur" salta cuando un cuadro de texto pierde el foco
+// (el usuario hace clic en otro sitio o pulsa Tab). Se usa igual que "click" (lección 50).
+txtNombre.addEventListener("blur", () => {
+    validarCampo(txtNombre, 3, lErrorNombre);
+});
+
+txtUsuario.addEventListener("blur", () => {
+    validarCampo(txtUsuario, 3, lErrorUsuario);
+});
+
+txtPassword.addEventListener("blur", () => {
+    validarCampo(txtPassword, 8, lErrorPassword);
+});
+
 
 // ===== 6. Arranque =====
 
