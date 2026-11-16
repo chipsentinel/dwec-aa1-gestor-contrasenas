@@ -16,6 +16,8 @@ const lErrorUsuario = document.getElementById("lErrorUsuario");
 const txtPassword = document.getElementById("txtPassword");
 const lErrorPassword = document.getElementById("lErrorPassword");
 const txtDescripcion = document.getElementById("txtDescripcion");
+const btnGenerar = document.getElementById("btnGenerar");
+const ckMostrar = document.getElementById("ckMostrar");
 const btnCancelar = document.getElementById("btnCancelar");
 const btnGuardar = document.getElementById("btnGuardar");
 
@@ -134,6 +136,86 @@ txtPassword.addEventListener("blur", () => {
 });
 
 
-// ===== 6. Arranque =====
+// ===== 6. EXTRA 1: generar una contraseña segura =====
+
+// Los cuatro grupos de caracteres. Se quitan los que se confunden al leerlos: l, I, O, 0 y 1.
+// Constantes en MAYÚSCULAS (lección 08)
+const MINUSCULAS = "abcdefghijkmnpqrstuvwxyz";
+const MAYUSCULAS = "ABCDEFGHJKLMNPQRSTUVWXYZ";
+const NUMEROS = "23456789";
+const SIMBOLOS = "!@#$%&*?+-=";
+const LARGO_PASSWORD = 12;
+
+// Número entero al azar entre 0 y max (el máximo NO se incluye), como aleatorioHasta de la lección 45.
+// Diferencia con el lab: Math.random() no sirve para contraseñas (lo dice la lección 45), así que se usa
+// crypto.getRandomValues, que da números impredecibles.
+// NUEVO (no está en el lab): new Uint32Array(1) es una lista de 1 número entero positivo; getRandomValues
+// la rellena con un número al azar seguro. Con % max se reduce al rango pedido.
+function aleatorioHasta(max) {
+    const numeros = new Uint32Array(1);
+    crypto.getRandomValues(numeros);
+    return numeros[0] % max;
+}
+
+// Un carácter al azar de un texto (lección 23: texto[posición])
+function caracterAleatorio(texto) {
+    return texto[aleatorioHasta(texto.length)];
+}
+
+// Mezcla el array con el algoritmo de Fisher-Yates (lección 45, apartado 7), pero con el azar seguro
+function mezclar(caracteres) {
+    for (let i = caracteres.length - 1; i > 0; i--) {
+        const j = aleatorioHasta(i + 1);
+        [caracteres[i], caracteres[j]] = [caracteres[j], caracteres[i]];   // intercambia dos posiciones (lección 45)
+    }
+}
+
+// Construye la contraseña: 1 carácter de cada grupo (así siempre hay de los cuatro tipos),
+// se rellena hasta 12 con caracteres de cualquier grupo y se mezcla
+function generarPassword() {
+    const todos = MINUSCULAS + MAYUSCULAS + NUMEROS + SIMBOLOS;      // lección 06: concatenar textos
+    const caracteres = [
+        caracterAleatorio(MINUSCULAS),
+        caracterAleatorio(MAYUSCULAS),
+        caracterAleatorio(NUMEROS),
+        caracterAleatorio(SIMBOLOS)
+    ];
+
+    // for: lección 19; push: lección 24
+    for (let i = caracteres.length; i < LARGO_PASSWORD; i++) {
+        caracteres.push(caracterAleatorio(todos));
+    }
+
+    mezclar(caracteres);
+    return caracteres.join("");                                      // lección 24: join
+}
+
+// Enseña u oculta la contraseña cambiando el tipo del cuadro: "text" la muestra, "password" la oculta
+// NUEVO (no está en el lab): type es la propiedad que dice qué tipo de cuadro es el <input>. Se cambia igual
+// que disabled o checked (lecciones 50 y 52): "password" (puntitos) o "text" (texto visible).
+function mostrarPassword(visible) {
+    if (visible) {
+        txtPassword.type = "text";
+    } else {
+        txtPassword.type = "password";
+    }
+    ckMostrar.checked = visible;               // lección 52: checked
+}
+
+// EVENTO (clic en Generar) -> se escribe la contraseña, se muestra y se valida (así se quita el error)
+btnGenerar.addEventListener("click", () => {
+    txtPassword.value = generarPassword();
+    mostrarPassword(true);                     // se enseña para que el usuario pueda verla y copiarla
+    validarCampo(txtPassword, 8, lErrorPassword);
+});
+
+// NUEVO (no está en el lab): el evento "change" salta cuando una casilla cambia de estado (se marca o se
+// desmarca). En la lección 52 se lee checked con un botón; aquí se reacciona al instante.
+ckMostrar.addEventListener("change", () => {
+    mostrarPassword(ckMostrar.checked);
+});
+
+
+// ===== 7. Arranque =====
 
 prepararPantalla();

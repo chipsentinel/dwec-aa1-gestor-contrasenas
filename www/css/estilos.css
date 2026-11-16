@@ -281,3 +281,28 @@ button.peligro {
     border-radius: 8px;
     font-weight: bold;
 }
+
+/* ===== 11. Generar contraseña (EXTRA 1) ===== */
+
+/* El cuadro de la contraseña y el botón de generar, uno al lado del otro */
+.fila {
+    display: flex;
+    gap: 8px;
+}
+
+/* Botón verde de "Generación automática" (Figura 3) */
+button.generar {
+    background: #2e9e4f;
+    border-color: #2e9e4f;
+    color: white;
+    border-radius: 6px;
+}
+
+/* La casilla "Mostrar contraseña" no lleva el estilo de las etiquetas de campo */
+.campo label.mostrar {
+    width: auto;
+    text-align: left;
+    padding-top: 0;
+    font-size: 13px;
+    display: block;
+}

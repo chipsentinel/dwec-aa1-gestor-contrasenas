@@ -55,7 +55,13 @@
             <div class="campo">
                 <label for="txtPassword">Password</label>
                 <div class="entrada">
-                    <input type="password" id="txtPassword">
+                    <!-- EXTRA 1: a la derecha del cuadro, el botón de generar contraseña (Figura 3) -->
+                    <div class="fila">
+                        <input type="password" id="txtPassword">
+                        <button id="btnGenerar" type="button" class="generar">Generar</button>
+                    </div>
+                    <!-- Casilla para ver u ocultar la contraseña (lección 52: checkbox) -->
+                    <label class="mostrar"><input type="checkbox" id="ckMostrar"> Mostrar contraseña</label>
                     <p id="lErrorPassword" class="error"></p>
                 </div>
             </div>
