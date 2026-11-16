@@ -16,7 +16,8 @@ Enlaces: [repo del profesor](https://github.com/ohierro/dwec_aa1_server) · [mi 
 8. [Conceptos nuevos explicados](#conceptos-nuevos-explicados)
 9. [Lecciones del lab usadas](#lecciones-del-lab-usadas)
 10. [15 preguntas probables de la defensa](#15-preguntas-probables-de-la-defensa)
-11. [Posibles mejoras](#posibles-mejoras)
+11. [Uso de IA](#uso-de-ia)
+12. [Posibles mejoras](#posibles-mejoras)
 
 ## Cómo arrancarlo
 
@@ -310,6 +311,10 @@ Cinco archivos (ver [Cambios en el servidor](#cambios-en-el-servidor)): añadí 
 
 **15. ¿Por qué el mensaje de error es tan corto?**
 Al salir de un campo salta `blur` y aparece el mensaje; si ocupara dos líneas, el botón de debajo se movería antes de que llegara el clic y el clic se perdería. Por eso el mensaje es corto ("Mínimo N caracteres (tiene X)") y su párrafo tiene altura fija. Lo comprobé con clics reales: con altura fija el botón se mueve 0 px; sin ella se desplazaba (10 px en el cuadro de categoría y 19 px en la lista).
+
+## Uso de IA
+
+En este trabajo he usado herramientas de IA como apoyo en el código y en la documentación. He probado la aplicación y repasado el código para poder explicarlo.
 
 ## Posibles mejoras
 
