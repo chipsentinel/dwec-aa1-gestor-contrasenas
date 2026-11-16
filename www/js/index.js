@@ -62,6 +62,11 @@ function crearItemCategoria(categoria) {
         seleccionarCategoria(categoria.id);
     });
 
+    // Mejora de uso: la categoría que se está viendo se pinta resaltada (clase "seleccionada" en el CSS)
+    if (categoria.id === idSeleccionada) {
+        item.classList.add("seleccionada");
+    }
+
     item.appendChild(crearIconoCategoria(categoria));
     item.appendChild(nombre);
     item.appendChild(crearBotonEliminarCategoria(categoria));
@@ -144,6 +149,10 @@ async function anadirCategoria() {
         return;
     }
 
+    // Mejora de uso: el botón se desactiva mientras se guarda, para no añadir dos veces con un doble clic
+    // (lección 50: disabled)
+    btnAceptarCategoria.disabled = true;
+
     try {
         // trim() quita los espacios sobrantes antes de enviar el nombre (lección 51)
         // EXTRA 4: junto al nombre se envía el emoji elegido en la lista (cmbIcono.value)
@@ -153,6 +162,9 @@ async function anadirCategoria() {
     } catch (error) {
         cerrarDialogoCategoria();         // el mensaje rojo está detrás del cuadro: se cierra para verlo
         mostrarError("No se pudo añadir la categoría: " + error.message);
+    } finally {
+        // finally se ejecuta SIEMPRE, haya error o no (lección 41): el botón vuelve a poder pulsarse
+        btnAceptarCategoria.disabled = false;
     }
 }
 
@@ -277,6 +289,10 @@ async function seleccionarCategoria(id) {
         idSeleccionada = id;
         pintarSites(completa);
         quitarError();
+
+        // REPINTAR también la lista de categorías, para que se resalte la elegida (crearItemCategoria
+        // compara cada id con idSeleccionada)
+        await cargarCategorias();
     } catch (error) {
         mostrarError("No se pudo cargar los sites: " + error.message);
     }

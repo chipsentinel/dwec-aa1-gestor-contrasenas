@@ -329,3 +329,11 @@ button.generar {
 #ulCategorias .icono {
     margin-right: 4px;
 }
+
+/* ===== 14. Categoría seleccionada ===== */
+
+/* La clase "seleccionada" la pone index.js al pintar la lista (classList.add) */
+#ulCategorias li.seleccionada {
+    background: var(--principal-claro);
+    font-weight: bold;
+}

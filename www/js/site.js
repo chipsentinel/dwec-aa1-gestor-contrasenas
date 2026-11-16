@@ -108,6 +108,9 @@ async function guardarSite() {
         return;
     }
 
+    // Mejora de uso: el botón se desactiva mientras se guarda, para no guardar dos veces con un doble clic
+    btnGuardar.disabled = true;
+
     try {
         await api.addSite(idCategoria, leerFormulario());
 
@@ -115,6 +118,7 @@ async function guardarSite() {
         volver();
     } catch (error) {
         mostrarError("No se pudo guardar el site: " + error.message);
+        btnGuardar.disabled = false;      // si falló, se puede volver a intentar
     }
 }
 
