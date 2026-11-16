@@ -135,3 +135,20 @@ td {
     font-weight: bold;
     min-height: 20px;
 }
+
+/* ===== 7. Mensajes de error y campos inválidos ===== */
+
+/* Los párrafos de error tienen siempre la misma altura (1 línea), tengan texto o no.
+   Así, al aparecer o desaparecer el mensaje, el botón de debajo NO se mueve. */
+.error {
+    color: var(--error);
+    font-size: 13px;
+    height: 18px;
+    margin: 4px 0;
+}
+
+/* La clase "invalido" la pone/quita validacion.js con classList */
+input.invalido {
+    border-color: var(--error);
+    background: #fdecec;
+}
