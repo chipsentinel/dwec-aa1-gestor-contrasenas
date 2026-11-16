@@ -76,6 +76,11 @@ class Api {
         return await respuesta.json();
     }
 
+    // DELETE /sites/:id -> borra un site (OBLIGATORIO 5). Contesta "OK", no JSON
+    async deleteSite(id) {
+        await this.#peticion("/sites/" + id, "DELETE");
+    }
+
     // DELETE /categories/:id -> borra la categoría (OBLIGATORIO 2)
     // El servidor contesta solo "OK" (no es JSON), por eso aquí NO se llama a respuesta.json()
     async deleteCategoria(id) {

@@ -186,6 +186,18 @@ function crearCelda(texto) {
     return celda;
 }
 
+// OBLIGATORIO 5: crea la celda "Acciones" con el botón para eliminar el site (lección 50: botones y click)
+function crearCeldaAcciones(site) {
+    const celda = document.createElement("td");
+    const boton = document.createElement("button");
+    boton.textContent = "Eliminar";
+    boton.addEventListener("click", () => {
+        eliminarSite(site);
+    });
+    celda.appendChild(boton);
+    return celda;
+}
+
 // Crea la fila <tr> de UN site. Como en la Figura 1, la contraseña NO se enseña en la tabla
 function crearFilaSite(site) {
     const fila = document.createElement("tr");
@@ -198,6 +210,7 @@ function crearFilaSite(site) {
         fila.appendChild(crearCelda(texto));
     }
 
+    fila.appendChild(crearCeldaAcciones(site));
     return fila;
 }
 
@@ -245,6 +258,25 @@ async function seleccionarCategoria(id) {
 }
 
 
+// ===== 9. OBLIGATORIO 5: eliminar un site =====
+
+// EVENTO (clic en Eliminar) -> CONFIRMAR -> api.deleteSite() con await -> REPINTAR la tabla
+async function eliminarSite(site) {
+    // confirm(): Aceptar / Cancelar (se explica en eliminarCategoria)
+    if (!confirm("¿Eliminar el site \"" + site.name + "\"?")) {
+        return;
+    }
+
+    try {
+        await api.deleteSite(site.id);
+        // REPINTAR: se vuelve a pedir la categoría que se está viendo, ya sin el site borrado
+        await seleccionarCategoria(idSeleccionada);
+    } catch (error) {
+        mostrarError("No se pudo eliminar el site: " + error.message);
+    }
+}
+
+
 // OBLIGATORIO 4: el botón "Añadir site" abre site.html llevando la categoría en la URL (site.html?categoria=3).
 // location.href cambia de página (se explica en site.js)
 btnNuevoSite.addEventListener("click", () => {
@@ -252,7 +284,7 @@ btnNuevoSite.addEventListener("click", () => {
 });
 
 
-// ===== 9. Abrir la categoría que viene en la URL (vuelta desde site.html) =====
+// ===== 10. Abrir la categoría que viene en la URL (vuelta desde site.html) =====
 
 // Tras guardar un site, site.js vuelve a index.html?categoria=3. Aquí se lee ese 3 y se abre la categoría.
 // NUEVO (no está en el lab): location.search es la parte de la URL que empieza por "?" ("?categoria=3")
@@ -268,7 +300,7 @@ async function abrirCategoriaDeLaUrl() {
 }
 
 
-// ===== 10. Arranque =====
+// ===== 11. Arranque =====
 
 // Al cargarse el script (al final del body): se piden las categorías y, si hay, se abre la de la URL
 async function arrancar() {
