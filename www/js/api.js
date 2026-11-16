@@ -62,4 +62,10 @@ class Api {
         const respuesta = await this.#peticion("/categories", "POST", { name: nombre });
         return await respuesta.json();
     }
+
+    // DELETE /categories/:id -> borra la categoría (OBLIGATORIO 2)
+    // El servidor contesta solo "OK" (no es JSON), por eso aquí NO se llama a respuesta.json()
+    async deleteCategoria(id) {
+        await this.#peticion("/categories/" + id, "DELETE");
+    }
 }

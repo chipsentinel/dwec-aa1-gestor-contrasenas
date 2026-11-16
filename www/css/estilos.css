@@ -198,3 +198,23 @@ input[type="text"] {
     justify-content: center;
     gap: 12px;
 }
+
+/* ===== 9. Elementos de la lista de categorías ===== */
+
+/* Nombre a la izquierda y botón Eliminar a la derecha */
+#ulCategorias li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 6px;
+}
+
+#ulCategorias .nombre {
+    flex: 1;            /* el nombre ocupa el espacio libre y empuja el botón a la derecha */
+}
+
+#ulCategorias button {
+    padding: 2px 8px;
+    font-size: 12px;
+}

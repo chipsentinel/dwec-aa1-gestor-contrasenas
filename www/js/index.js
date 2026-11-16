@@ -41,8 +41,25 @@ function quitarError() {
 // Crea el <li> de UNA categoría (lección 49: createElement + textContent)
 function crearItemCategoria(categoria) {
     const item = document.createElement("li");
-    item.textContent = categoria.name;
+
+    // El nombre va en un <span> propio (lección 49) para que más adelante se pueda hacer clic en él
+    const nombre = document.createElement("span");
+    nombre.textContent = categoria.name;
+    nombre.classList.add("nombre");         // classList.add: ver validacion.js. El CSS y el buscador lo localizan por esta clase
+
+    item.appendChild(nombre);
+    item.appendChild(crearBotonEliminarCategoria(categoria));
     return item;
+}
+
+// OBLIGATORIO 2: crea el botón para eliminar la categoría (lección 50: botones y click)
+function crearBotonEliminarCategoria(categoria) {
+    const boton = document.createElement("button");
+    boton.textContent = "Eliminar";
+    boton.addEventListener("click", () => {
+        eliminarCategoria(categoria);
+    });
+    return boton;
 }
 
 // Repinta toda la lista: primero la vacía y luego añade un <li> por categoría
@@ -115,7 +132,26 @@ btnCancelarCategoria.addEventListener("click", cerrarDialogoCategoria);
 btnAceptarCategoria.addEventListener("click", anadirCategoria);
 
 
-// ===== 7. Arranque =====
+// ===== 7. OBLIGATORIO 2: eliminar una categoría =====
+
+// EVENTO (clic en Eliminar) -> CONFIRMAR -> api.deleteCategoria() con await -> REPINTAR
+async function eliminarCategoria(categoria) {
+    // NUEVO (no está en el lab): confirm() abre una ventana con Aceptar / Cancelar.
+    // Devuelve true si el usuario acepta. Evita borrar por un clic accidental.
+    if (!confirm("¿Eliminar la categoría \"" + categoria.name + "\"?")) {
+        return;
+    }
+
+    try {
+        await api.deleteCategoria(categoria.id);
+        await cargarCategorias();         // REPINTAR: la lista ya sin la categoría borrada
+    } catch (error) {
+        mostrarError("No se pudo eliminar la categoría: " + error.message);
+    }
+}
+
+
+// ===== 8. Arranque =====
 
 // Al cargarse el script (al final del body) se piden las categorías
 cargarCategorias();
