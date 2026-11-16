@@ -50,6 +50,8 @@ class Api {
 
     // ===== 3. Métodos públicos: uno por cada ruta de la API =====
 
+    // Son métodos con parámetros (lección 28): reciben el id, el nombre o el site y los pasan a #peticion
+
     // GET /categories -> lista de categorías: [{id, name, ...}, ...]
     async getCategorias() {
         const respuesta = await this.#peticion("/categories", "GET");

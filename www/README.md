@@ -313,7 +313,7 @@ Al salir de un campo salta `blur` y aparece el mensaje; si ocupara dos líneas, 
 ## Posibles mejoras
 
 - **Editar sites** (la API tiene `PUT /sites/:id`, no se usa porque no es obligatorio).
-- **Ocultar la contraseña en la tabla** con un botón "Mostrar" por fila, y **copiar al portapapeles**.
+- **Ver la contraseña guardada**: ahora la tabla no la enseña (como en la Figura 1). Faltaría un botón "Mostrar" por fila y **copiar al portapapeles**.
 - **Cifrar las contraseñas** en el servidor: ahora se guardan en texto plano, algo que un gestor real no haría.
 - **Borrar los sites de una categoría** cuando se borra la categoría (ahora quedan huérfanos en la base de datos).
 - **Editar o reordenar categorías** y permitir iconos propios.

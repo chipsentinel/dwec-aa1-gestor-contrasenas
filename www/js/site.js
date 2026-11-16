@@ -74,7 +74,8 @@ function volver() {
     }
 }
 
-// EVENTO (clic en Cancel): se vuelve sin guardar nada
+// EVENTO (clic en Cancel): se vuelve sin guardar nada. Aquí se pasa la función por su nombre; en otros
+// eventos se usa una función flecha () => { ... } (lección 25)
 btnCancelar.addEventListener("click", volver);
 
 

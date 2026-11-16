@@ -57,7 +57,8 @@ function crearItemCategoria(categoria) {
     nombre.textContent = categoria.name;
     nombre.classList.add("nombre");         // classList.add: ver validacion.js. El CSS y el buscador lo localizan por esta clase
 
-    // OBLIGATORIO 3: al hacer clic en el nombre se selecciona la categoría y se piden sus sites
+    // OBLIGATORIO 3: al hacer clic en el nombre se selecciona la categoría y se piden sus sites.
+    // () => { ... } es una función flecha (lección 25): el código que se ejecuta cuando llega el clic
     nombre.addEventListener("click", () => {
         seleccionarCategoria(categoria.id);
     });
@@ -136,6 +137,7 @@ function abrirDialogoCategoria() {
     fondoDialogo.hidden = false;
 }
 
+// Oculta el cuadro "Nueva categoría" (hidden = true)
 function cerrarDialogoCategoria() {
     fondoDialogo.hidden = true;
 }
@@ -372,6 +374,7 @@ function filtrarSites(buscado) {
     }
 }
 
+// Lee lo escrito en el buscador y aplica el filtro a las categorías y a los sites
 function filtrar() {
     const buscado = txtBuscar.value.trim().toLowerCase();
     filtrarCategorias(buscado);
