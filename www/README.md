@@ -13,11 +13,12 @@ Enlaces: [repo del profesor](https://github.com/ohierro/dwec_aa1_server) · [mi 
 5. [Funcionalidades extra](#funcionalidades-extra)
 6. [Origen del código](#origen-del-código)
 7. [Cambios en el servidor](#cambios-en-el-servidor)
-8. [Conceptos nuevos explicados](#conceptos-nuevos-explicados)
-9. [Lecciones del lab usadas](#lecciones-del-lab-usadas)
-10. [15 preguntas probables de la defensa](#15-preguntas-probables-de-la-defensa)
-11. [Uso de IA](#uso-de-ia)
-12. [Posibles mejoras](#posibles-mejoras)
+8. [Problemas encontrados y cómo se resolvieron](#problemas-encontrados-y-cómo-se-resolvieron)
+9. [Conceptos nuevos explicados](#conceptos-nuevos-explicados)
+10. [Lecciones del lab usadas](#lecciones-del-lab-usadas)
+11. [15 preguntas probables de la defensa](#15-preguntas-probables-de-la-defensa)
+12. [Uso de IA](#uso-de-ia)
+13. [Posibles mejoras](#posibles-mejoras)
 
 ## Cómo arrancarlo
 
@@ -208,6 +209,38 @@ Solo se tocaron 5 archivos del profesor. Cada línea cambiada lleva un comentari
 | `src/categories/sites.controller.js` (`deleteOne`) | `res.sendStatus(404)` | `return res.sendStatus(404)` | Igual: `site.destroy()` fallaba con `site` `null` |
 
 Después de tocar modelo y migración se borró `database.sqlite` (no está en git) y se lanzó `npm run db:init`.
+
+## Problemas encontrados y cómo se resolvieron
+
+Cinco problemas reales de esta aplicación. Los dos primeros y el quinto se vieron fallar; el tercero y el cuarto se previeron al escribir `api.js`. Cada uno tiene su solución en el código.
+
+### 1. El servidor se caía al borrar un id que no existe
+- **Síntoma**: tras un `DELETE /categories/9999` (o `/sites/9999`) el servidor dejaba de responder y había que volver a lanzar `npm start`.
+- **Causa**: en los dos `deleteOne` del servidor, `res.sendStatus(404)` no llevaba `return`. El código seguía, llamaba a `category.destroy()` con `category` a `null` y saltaba un error que nadie capturaba.
+- **Solución**: `return res.sendStatus(404)` en `src/categories/category.controller.js` y `src/categories/sites.controller.js` (ver [Cambios en el servidor](#cambios-en-el-servidor)).
+- **Comprobación**: ahora esas dos llamadas devuelven 404 y el servidor sigue respondiendo.
+
+### 2. El clic que se perdía al validar en blur
+- **Síntoma**: con el cursor en un campo mal rellenado, al pulsar el botón a veces no pasaba nada.
+- **Causa**: al hacer clic fuera del campo, primero salta `blur` (que escribe el mensaje de error) y después llega el clic. Si el mensaje cambia la altura de su párrafo, el botón se mueve y el clic cae donde ya no está.
+- **Solución**: el mensaje es corto ("Mínimo N caracteres (tiene X)") y su párrafo `.error` tiene altura fija en `css/estilos.css`, tenga texto o no.
+- **Comprobación**: con clics reales en la posición anterior al `blur`, el botón no se mueve (0 px). Sin la altura fija se desplazaba 10 px en el cuadro "Nueva categoría".
+
+### 3. fetch no avisa cuando el servidor contesta con un error
+- **Riesgo**: sin comprobarlo, una respuesta 404 o 500 se trataría como si todo hubiera ido bien.
+- **Causa**: `fetch` solo falla si no hay conexión. Si el servidor contesta, aunque sea con un error, la promesa se cumple.
+- **Solución**: `#peticion` en `js/api.js` comprueba `respuesta.ok` y, si es `false`, lanza el error con `throw` (lección 41). Así el `catch` de la pantalla muestra el mensaje en rojo.
+
+### 4. Los DELETE no devuelven JSON
+- **Riesgo**: si al borrar se llamara a `respuesta.json()`, fallaría aunque el borrado se hubiera hecho.
+- **Causa**: el servidor contesta a los `DELETE` con el texto `OK`, que no es JSON.
+- **Solución**: `deleteCategoria` y `deleteSite` no llaman a `respuesta.json()`; solo esperan a `#peticion`. Los demás métodos sí, porque esas rutas devuelven JSON.
+
+### 5. hidden no ocultaba el cuadro "Nueva categoría"
+- **Síntoma**: el cuadro se veía siempre, aunque tenía el atributo `hidden`.
+- **Causa**: el cuadro usa `display: flex` para centrarse, y esa regla del CSS gana a la que trae el navegador para `hidden`.
+- **Solución**: la regla `[hidden] { display: none !important; }` al principio de `css/estilos.css`.
+- **Comprobación**: quitando esa regla, el cuadro vuelve a verse con `hidden` puesto.
 
 ## Conceptos nuevos explicados
 
