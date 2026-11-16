@@ -1,3 +1,5 @@
+> **Aviso:** la aplicación web de esta actividad (carpeta `www/`) está explicada en [www/README.md](www/README.md): cómo arrancarla, qué hace cada parte, de dónde sale cada línea y las preguntas de la defensa. El resto de este README es el original del profesor.
+
 # AA 1EV DWEC SV ONLINE
 
 📖 Para el desarrollo de la primera actividad de aprendizaje, es recomendable utilizar este esqueleto como base del proyecto.
