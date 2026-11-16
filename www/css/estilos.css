@@ -342,3 +342,12 @@ button.generar {
     background: var(--principal-claro);
     font-weight: bold;
 }
+
+/* ===== 15. Botones de la columna "Acciones" ===== */
+
+/* Separación entre "Mostrar" y "Eliminar" */
+td button {
+    margin: 0 3px;
+    padding: 3px 10px;
+    font-size: 13px;
+}

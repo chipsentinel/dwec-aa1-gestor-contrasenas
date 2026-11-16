@@ -54,7 +54,7 @@ El aspecto sigue de forma orientativa las tres figuras (no es una copia exacta):
 
 | Figura | Qué pide | Cómo está hecho |
 |---|---|---|
-| 1. Pantalla principal | Botones arriba, lista de categorías a la izquierda y tabla de sites a la derecha (sitio, user, fecha, acciones) | Barra con "Añadir categoría" y "Añadir site"; columna de categorías con la seleccionada resaltada; tabla con cabecera azul y botón "Eliminar" por fila. La contraseña no se enseña en la tabla |
+| 1. Pantalla principal | Botones arriba, lista de categorías a la izquierda y tabla de sites a la derecha (sitio, user, fecha, acciones) | Barra con "Añadir categoría" y "Añadir site"; columna de categorías con la seleccionada resaltada; tabla con cabecera azul y, en Acciones, los botones "Mostrar" (enseña la contraseña, que sale tapada) y "Eliminar" |
 | 2. Nueva categoría | Cuadro con Nombre, Cancel y OK | Cuadro oculto con `hidden` que se abre con "Añadir categoría" (con el icono, EXTRA 4) |
 | 3. Añadir entrada | URL, User, Password con botón de generar, Description grande, Cancel y Save | `site.html` con esos campos, botón verde "Generar", `<textarea>` para la descripción y botones Cancel (rojo) y Save (azul). Añade un campo "Nombre", porque el enunciado lo pide obligatorio |
 
@@ -103,8 +103,8 @@ btnAceptarCategoria.addEventListener("click", anadirCategoria);    // 1. EVENTO
 - **Cómo demostrarlo**: pulsar Eliminar y Cancelar (no pasa nada); pulsarlo y Aceptar (desaparece).
 
 ### OBLIGATORIO 3: ver los sites de una categoría
-- **Qué hace**: al pulsar el nombre de una categoría se piden sus sites al servidor y se pintan en una tabla con sitio, usuario y fecha de creación (como en la Figura 1, la contraseña no se enseña en la tabla). Si no hay sites sale un texto.
-- **Archivo y función**: `js/index.js` → `seleccionarCategoria(id)`, `pintarSites(categoria)`, `crearFilaSite(site)`, `formatearFecha(texto)`; `js/api.js` → `getCategoria(id)`.
+- **Qué hace**: al pulsar el nombre de una categoría se piden sus sites al servidor y se pintan en una tabla con sitio, usuario, fecha de creación y contraseña. La contraseña sale tapada (••••••••) y se enseña con el botón "Mostrar" de su fila. Si no hay sites sale un texto.
+- **Archivo y función**: `js/index.js` → `seleccionarCategoria(id)`, `pintarSites(categoria)`, `crearFilaSite(site)`, `crearBotonMostrar(site, celdaPassword)`, `formatearFecha(texto)`; `js/api.js` → `getCategoria(id)`.
 - **API**: `GET /categories/:id` (devuelve la categoría con `sites` dentro).
 - **Lab**: lecciones 15 (if/else), 24 (arrays), 33 (for...of), [40](https://github.com/chipsentinel/programming-language-lab/tree/main/javascript/06-advanced-oop/40-datetime) (fechas), 49-51 (DOM), 61.
 - **Cómo demostrarlo**: pulsar una categoría con sites (tabla) y otra sin sites (texto "Esta categoría no tiene sites todavía.").
@@ -120,7 +120,7 @@ btnAceptarCategoria.addEventListener("click", anadirCategoria);    // 1. EVENTO
 
 ### OBLIGATORIO 5: eliminar site
 - **Qué hace**: cada fila de la tabla tiene en "Acciones" un botón "Eliminar" que borra el site, tras confirmar.
-- **Archivo y función**: `js/index.js` → `eliminarSite(site)`, `crearCeldaAcciones(site)`; `js/api.js` → `deleteSite(id)`.
+- **Archivo y función**: `js/index.js` → `eliminarSite(site)`, `crearBotonEliminarSite(site)`; `js/api.js` → `deleteSite(id)`.
 - **API**: `DELETE /sites/:id`.
 - **Lab**: lecciones 41, 49-50, 61.
 - **Cómo demostrarlo**: pulsar Eliminar en una fila y aceptar.
@@ -167,6 +167,7 @@ btnAceptarCategoria.addEventListener("click", anadirCategoria);    // 1. EVENTO
 
 ### Mejoras de uso (sin ser obligatorias ni extras)
 - `confirm()` antes de borrar categorías y sites.
+- La contraseña sale tapada en la tabla y cada fila tiene un botón "Mostrar" / "Ocultar" (`crearBotonMostrar`).
 - La categoría seleccionada se resalta (al seleccionar se repinta la lista y `crearItemCategoria` compara cada id con `idSeleccionada`).
 - Los botones OK (categoría) y Save (site) se desactivan mientras guardan (evita duplicados con un doble clic).
 - Mensaje en rojo si el servidor falla.
@@ -313,7 +314,7 @@ Al salir de un campo salta `blur` y aparece el mensaje; si ocupara dos líneas, 
 ## Posibles mejoras
 
 - **Editar sites** (la API tiene `PUT /sites/:id`, no se usa porque no es obligatorio).
-- **Ver la contraseña guardada**: ahora la tabla no la enseña (como en la Figura 1). Faltaría un botón "Mostrar" por fila y **copiar al portapapeles**.
+- **Copiar la contraseña al portapapeles** con un botón por fila (ahora solo se puede mostrar).
 - **Cifrar las contraseñas** en el servidor: ahora se guardan en texto plano, algo que un gestor real no haría.
 - **Borrar los sites de una categoría** cuando se borra la categoría (ahora quedan huérfanos en la base de datos).
 - **Editar o reordenar categorías** y permitir iconos propios.

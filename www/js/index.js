@@ -223,19 +223,46 @@ function crearCelda(texto) {
     return celda;
 }
 
-// OBLIGATORIO 5: crea la celda "Acciones" con el botón para eliminar el site (lección 50: botones y click)
-function crearCeldaAcciones(site) {
-    const celda = document.createElement("td");
+// Texto que se ve en la columna "Contraseña" mientras está oculta (constante en mayúsculas: lección 08)
+const PASSWORD_OCULTA = "••••••••";
+
+// Mejora de uso: crea el botón que enseña u oculta la contraseña de UN site.
+// Funciona como los botones Saludar / Despedir de la lección 50: según el texto que tiene el botón,
+// cambia el texto de la celda (textContent) y el suyo propio.
+function crearBotonMostrar(site, celdaPassword) {
+    const boton = document.createElement("button");
+    boton.textContent = "Mostrar";
+    boton.addEventListener("click", () => {
+        if (boton.textContent === "Mostrar") {
+            celdaPassword.textContent = site.password;      // se enseña la contraseña real
+            boton.textContent = "Ocultar";
+        } else {
+            celdaPassword.textContent = PASSWORD_OCULTA;    // se vuelve a tapar
+            boton.textContent = "Mostrar";
+        }
+    });
+    return boton;
+}
+
+// OBLIGATORIO 5: crea el botón para eliminar el site (lección 50: botones y click)
+function crearBotonEliminarSite(site) {
     const boton = document.createElement("button");
     boton.textContent = "Eliminar";
     boton.addEventListener("click", () => {
         eliminarSite(site);
     });
-    celda.appendChild(boton);
+    return boton;
+}
+
+// Crea la celda "Acciones" con sus dos botones: Mostrar y Eliminar
+function crearCeldaAcciones(site, celdaPassword) {
+    const celda = document.createElement("td");
+    celda.appendChild(crearBotonMostrar(site, celdaPassword));
+    celda.appendChild(crearBotonEliminarSite(site));
     return celda;
 }
 
-// Crea la fila <tr> de UN site. Como en la Figura 1, la contraseña NO se enseña en la tabla
+// Crea la fila <tr> de UN site. La contraseña empieza tapada; se enseña con el botón "Mostrar"
 function crearFilaSite(site) {
     const fila = document.createElement("tr");
 
@@ -247,7 +274,11 @@ function crearFilaSite(site) {
         fila.appendChild(crearCelda(texto));
     }
 
-    fila.appendChild(crearCeldaAcciones(site));
+    // La celda de la contraseña se guarda en una constante para pasársela al botón "Mostrar"
+    const celdaPassword = crearCelda(PASSWORD_OCULTA);
+    fila.appendChild(celdaPassword);
+
+    fila.appendChild(crearCeldaAcciones(site, celdaPassword));
     return fila;
 }
 
