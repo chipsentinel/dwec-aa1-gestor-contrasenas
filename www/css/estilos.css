@@ -223,3 +223,61 @@ input[type="text"] {
 #ulCategorias .nombre {
     cursor: pointer;
 }
+
+/* ===== 10. Pantalla site.html (Figura 3) ===== */
+
+#formularioSite {
+    width: 640px;
+    background: var(--panel);
+    border: 1px solid var(--borde);
+    padding: 16px 24px;
+}
+
+/* Cada campo: etiqueta a la izquierda (alineada a la derecha) y el cuadro ocupando el resto */
+.campo {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 4px;
+}
+
+.campo label {
+    width: 90px;
+    text-align: right;
+    padding-top: 6px;
+    font-size: 14px;
+}
+
+.entrada {
+    flex: 1;
+}
+
+input[type="password"],
+textarea {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 6px;
+    border: 1px solid var(--borde);
+    font-family: inherit;
+}
+
+input[type="password"].invalido {
+    border-color: var(--error);
+    background: #fdecec;
+}
+
+/* Botón rojo (Cancel de la Figura 3) */
+button.peligro {
+    background: var(--peligro);
+    border-color: var(--peligro);
+    color: white;
+}
+
+#formularioSite .botones {
+    margin-top: 16px;
+}
+
+#formularioSite .botones button {
+    padding: 8px 28px;
+    border-radius: 8px;
+    font-weight: bold;
+}

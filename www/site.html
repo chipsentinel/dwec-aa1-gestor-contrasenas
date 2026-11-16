@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!--
+    site.html: segunda pantalla, para AÑADIR un site a una categoría (OBLIGATORIO 4). Sigue la Figura 3.
+    Es independiente de index.html: tiene su propio HTML y su propio JS.
+    Solo contiene ESTRUCTURA (lección 49): ningún JavaScript dentro del HTML.
+    La categoría llega por la URL (site.html?categoria=3); la lee el JS de esta pantalla.
+-->
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Añadir site</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+    <header>
+        <h1>Gestor de contraseñas</h1>
+    </header>
+
+    <!-- Mensaje de error del servidor (en rojo). Empieza vacío y se rellena desde JavaScript -->
+    <p id="lMensaje"></p>
+
+    <main>
+        <section id="formularioSite">
+            <!-- El título se completa con el nombre de la categoría desde JavaScript -->
+            <h2 id="lTitulo">Añadir site</h2>
+
+            <!-- Cada campo (Figura 3): etiqueta a la izquierda y, a su derecha, el cuadro y el párrafo del
+                 error de validación (lección 51) -->
+            <div class="campo">
+                <label for="txtNombre">Nombre</label>
+                <div class="entrada">
+                    <input type="text" id="txtNombre">
+                    <p id="lErrorNombre" class="error"></p>
+                </div>
+            </div>
+
+            <div class="campo">
+                <label for="txtUrl">URL</label>
+                <div class="entrada">
+                    <input type="text" id="txtUrl" placeholder="https://...">
+                    <p class="error"></p>
+                </div>
+            </div>
+
+            <div class="campo">
+                <label for="txtUsuario">User</label>
+                <div class="entrada">
+                    <input type="text" id="txtUsuario">
+                    <p id="lErrorUsuario" class="error"></p>
+                </div>
+            </div>
+
+            <div class="campo">
+                <label for="txtPassword">Password</label>
+                <div class="entrada">
+                    <input type="password" id="txtPassword">
+                    <p id="lErrorPassword" class="error"></p>
+                </div>
+            </div>
+
+            <!-- Description: cuadro de texto grande de varias líneas (<textarea>). Su texto se lee con value,
+                 igual que el de un <input> (lección 51) -->
+            <div class="campo">
+                <label for="txtDescripcion">Description</label>
+                <div class="entrada">
+                    <textarea id="txtDescripcion" rows="6"></textarea>
+                </div>
+            </div>
+
+            <div class="botones">
+                <button id="btnCancelar" type="button" class="peligro">Cancel</button>
+                <button id="btnGuardar" type="button" class="principal">Save</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Los scripts van al final del body (lección 49). Orden: api, validación y, después, el de la pantalla -->
+    <script src="js/api.js"></script>
+    <script src="js/validacion.js"></script>
+
+</body>
+</html>
