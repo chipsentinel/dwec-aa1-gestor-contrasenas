@@ -69,6 +69,13 @@ class Api {
         return await respuesta.json();
     }
 
+    // POST /categories/:id con {name, url, user, password, description} -> crea un site en esa categoría
+    // (OBLIGATORIO 4). "site" es un objeto con esos cinco campos.
+    async addSite(idCategoria, site) {
+        const respuesta = await this.#peticion("/categories/" + idCategoria, "POST", site);
+        return await respuesta.json();
+    }
+
     // DELETE /categories/:id -> borra la categoría (OBLIGATORIO 2)
     // El servidor contesta solo "OK" (no es JSON), por eso aquí NO se llama a respuesta.json()
     async deleteCategoria(id) {

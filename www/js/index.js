@@ -17,6 +17,7 @@ const btnCancelarCategoria = document.getElementById("btnCancelarCategoria");
 const btnAceptarCategoria = document.getElementById("btnAceptarCategoria");
 const lTituloSites = document.getElementById("lTituloSites");
 const lSinSites = document.getElementById("lSinSites");
+const btnNuevoSite = document.getElementById("btnNuevoSite");
 const tblSites = document.getElementById("tblSites");
 const tbodySites = document.getElementById("tbodySites");
 
@@ -205,12 +206,14 @@ function ocultarSites() {
     idSeleccionada = null;
     lTituloSites.textContent = "Selecciona una categoría";
     lSinSites.textContent = "";
+    btnNuevoSite.disabled = true;   // sin categoría no se puede añadir un site
     tblSites.hidden = true;       // NUEVO (no está en el lab): hidden oculta un elemento (true) o lo muestra (false)
 }
 
 // Repinta la columna derecha con los datos de una categoría (que trae sus "sites" dentro)
 function pintarSites(categoria) {
     lTituloSites.textContent = "Sites de " + categoria.name;
+    btnNuevoSite.disabled = false;      // con una categoría seleccionada ya se puede añadir un site
 
     // Se vacía la tabla antes de pintar (lección 51)
     tbodySites.textContent = "";
@@ -242,7 +245,35 @@ async function seleccionarCategoria(id) {
 }
 
 
-// ===== 9. Arranque =====
+// OBLIGATORIO 4: el botón "Añadir site" abre site.html llevando la categoría en la URL (site.html?categoria=3).
+// location.href cambia de página (se explica en site.js)
+btnNuevoSite.addEventListener("click", () => {
+    location.href = "site.html?categoria=" + idSeleccionada;
+});
 
-// Al cargarse el script (al final del body) se piden las categorías
-cargarCategorias();
+
+// ===== 9. Abrir la categoría que viene en la URL (vuelta desde site.html) =====
+
+// Tras guardar un site, site.js vuelve a index.html?categoria=3. Aquí se lee ese 3 y se abre la categoría.
+// NUEVO (no está en el lab): location.search es la parte de la URL que empieza por "?" ("?categoria=3")
+// y URLSearchParams permite leer sus valores con .get("categoria"). Devuelve null si no existe.
+async function abrirCategoriaDeLaUrl() {
+    const parametros = new URLSearchParams(location.search);
+    const texto = parametros.get("categoria");
+
+    if (texto !== null) {
+        // La URL siempre es texto: Number() lo convierte en número (lección 09)
+        await seleccionarCategoria(Number(texto));
+    }
+}
+
+
+// ===== 10. Arranque =====
+
+// Al cargarse el script (al final del body): se piden las categorías y, si hay, se abre la de la URL
+async function arrancar() {
+    await cargarCategorias();
+    await abrirCategoriaDeLaUrl();
+}
+
+arrancar();
