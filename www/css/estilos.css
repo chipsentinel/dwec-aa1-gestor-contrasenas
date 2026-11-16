@@ -139,7 +139,11 @@ td {
 /* ===== 7. Mensajes de error y campos inválidos ===== */
 
 /* Los párrafos de error tienen siempre la misma altura (1 línea), tengan texto o no.
-   Así, al aparecer o desaparecer el mensaje, el botón de debajo NO se mueve. */
+   Así, al aparecer o desaparecer el mensaje, el botón de debajo NO se mueve.
+   COMPROBADO: al hacer clic en el botón estando en un campo, primero salta el "blur" del campo (que escribe el
+   mensaje) y después llega el clic. Si el mensaje moviera el botón, el clic caería en el hueco y se perdería.
+   Con esta altura fija el botón no se desplaza (0 px); sin ella se desplazaba (10 px en el cuadro de categoría,
+   que va centrado, y 19 px en la pantalla de la lista). NO quitar "height". */
 .error {
     color: var(--error);
     font-size: 13px;
