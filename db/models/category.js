@@ -14,7 +14,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Category.init({
-    name: DataTypes.STRING
+    name: DataTypes.STRING, // AÑADIDO: coma, porque ahora hay un campo más detrás
+    icon: DataTypes.STRING // AÑADIDO: icono (emoji) de la categoría, para el EXTRA 4 (icono en las categorías)
   }, {
     sequelize,
     modelName: 'Category',

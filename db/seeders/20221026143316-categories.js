@@ -17,6 +17,7 @@ module.exports = {
    let categories = Array(10).fill(0).map( (v,idx) => ({
     // id: idx,
     name: faker.company.bsNoun(),
+    icon: "📁", // AÑADIDO: icono por defecto de las categorías de ejemplo (EXTRA 4)
     createdAt: new Date(),
     updatedAt: new Date(),
    }))

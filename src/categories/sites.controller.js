@@ -15,7 +15,7 @@ async function add(req, res) {
 async function deleteOne(req, res) {
     let site = await models.Site.findByPk(req.params.id)
     if (!site)
-      res.sendStatus(404)
+      return res.sendStatus(404) // CORREGIDO: sin el return, el código seguía y site.destroy() fallaba (site es null) y tiraba el servidor
   
     await site.destroy()
     res.sendStatus(200)

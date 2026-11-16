@@ -22,7 +22,7 @@ async function deleteOne(req, res) {
   let category = await models.Category.findByPk(req.params.id)
 
   if (!category)
-    res.sendStatus(404)
+    return res.sendStatus(404) // CORREGIDO: sin el return, el código seguía y category.destroy() fallaba (category es null) y tiraba el servidor
 
   await category.destroy()
   res.sendStatus(200)

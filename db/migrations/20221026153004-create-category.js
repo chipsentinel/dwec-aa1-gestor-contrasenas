@@ -12,6 +12,10 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
+      // AÑADIDO: columna del icono (emoji) de la categoría, para el EXTRA 4
+      icon: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
