@@ -63,6 +63,12 @@ class Api {
         return await respuesta.json();
     }
 
+    // GET /categories/:id -> la categoría con sus sites dentro: {id, name, sites: [...]} (OBLIGATORIO 3)
+    async getCategoria(id) {
+        const respuesta = await this.#peticion("/categories/" + id, "GET");
+        return await respuesta.json();
+    }
+
     // DELETE /categories/:id -> borra la categoría (OBLIGATORIO 2)
     // El servidor contesta solo "OK" (no es JSON), por eso aquí NO se llama a respuesta.json()
     async deleteCategoria(id) {

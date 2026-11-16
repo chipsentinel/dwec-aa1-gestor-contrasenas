@@ -15,12 +15,19 @@ const txtCategoria = document.getElementById("txtCategoria");
 const lErrorCategoria = document.getElementById("lErrorCategoria");
 const btnCancelarCategoria = document.getElementById("btnCancelarCategoria");
 const btnAceptarCategoria = document.getElementById("btnAceptarCategoria");
+const lTituloSites = document.getElementById("lTituloSites");
+const lSinSites = document.getElementById("lSinSites");
+const tblSites = document.getElementById("tblSites");
+const tbodySites = document.getElementById("tbodySites");
 
 
 // ===== 2. Datos de la pantalla =====
 
 // Un único objeto Api para toda la pantalla (lección 26: crear un objeto con new)
 const api = new Api();
+
+// Id de la categoría que se está viendo (null = ninguna). Es una variable con let (lección 05)
+let idSeleccionada = null;
 
 
 // ===== 3. Mensajes de error =====
@@ -46,6 +53,11 @@ function crearItemCategoria(categoria) {
     const nombre = document.createElement("span");
     nombre.textContent = categoria.name;
     nombre.classList.add("nombre");         // classList.add: ver validacion.js. El CSS y el buscador lo localizan por esta clase
+
+    // OBLIGATORIO 3: al hacer clic en el nombre se selecciona la categoría y se piden sus sites
+    nombre.addEventListener("click", () => {
+        seleccionarCategoria(categoria.id);
+    });
 
     item.appendChild(nombre);
     item.appendChild(crearBotonEliminarCategoria(categoria));
@@ -144,6 +156,12 @@ async function eliminarCategoria(categoria) {
 
     try {
         await api.deleteCategoria(categoria.id);
+
+        // Si era la categoría que se estaba viendo, la columna de sites se deja vacía
+        if (idSeleccionada === categoria.id) {
+            ocultarSites();
+        }
+
         await cargarCategorias();         // REPINTAR: la lista ya sin la categoría borrada
     } catch (error) {
         mostrarError("No se pudo eliminar la categoría: " + error.message);
@@ -151,7 +169,80 @@ async function eliminarCategoria(categoria) {
 }
 
 
-// ===== 8. Arranque =====
+// ===== 8. OBLIGATORIO 3: ver los sites de una categoría =====
+
+// Convierte la fecha que manda el servidor ("2026-11-16T03:10:14.548Z") en "16/11/2026"
+// new Date(texto) y toLocaleDateString: lección 40 (fechas)
+function formatearFecha(texto) {
+    const fecha = new Date(texto);
+    return fecha.toLocaleDateString("es-ES");
+}
+
+// Crea una celda <td> con un texto (lección 49)
+function crearCelda(texto) {
+    const celda = document.createElement("td");
+    celda.textContent = texto;
+    return celda;
+}
+
+// Crea la fila <tr> de UN site. Como en la Figura 1, la contraseña NO se enseña en la tabla
+function crearFilaSite(site) {
+    const fila = document.createElement("tr");
+
+    // Los textos de las columnas, en el mismo orden que la cabecera (lección 24: arrays)
+    const textos = [site.name, site.user, formatearFecha(site.createdAt)];
+
+    // for...of: lección 33
+    for (const texto of textos) {
+        fila.appendChild(crearCelda(texto));
+    }
+
+    return fila;
+}
+
+// Deja la columna derecha como al principio (ninguna categoría seleccionada)
+function ocultarSites() {
+    idSeleccionada = null;
+    lTituloSites.textContent = "Selecciona una categoría";
+    lSinSites.textContent = "";
+    tblSites.hidden = true;       // NUEVO (no está en el lab): hidden oculta un elemento (true) o lo muestra (false)
+}
+
+// Repinta la columna derecha con los datos de una categoría (que trae sus "sites" dentro)
+function pintarSites(categoria) {
+    lTituloSites.textContent = "Sites de " + categoria.name;
+
+    // Se vacía la tabla antes de pintar (lección 51)
+    tbodySites.textContent = "";
+
+    if (categoria.sites.length === 0) {
+        // Sin sites: se muestra un texto y se oculta la tabla (lección 15: if/else)
+        lSinSites.textContent = "Esta categoría no tiene sites todavía.";
+        tblSites.hidden = true;
+        return;
+    }
+
+    lSinSites.textContent = "";
+    tblSites.hidden = false;
+    for (const site of categoria.sites) {
+        tbodySites.appendChild(crearFilaSite(site));
+    }
+}
+
+// EVENTO (clic en una categoría) -> api.getCategoria() con await -> REPINTAR la columna derecha
+async function seleccionarCategoria(id) {
+    try {
+        const completa = await api.getCategoria(id);
+        idSeleccionada = id;
+        pintarSites(completa);
+        quitarError();
+    } catch (error) {
+        mostrarError("No se pudo cargar los sites: " + error.message);
+    }
+}
+
+
+// ===== 9. Arranque =====
 
 // Al cargarse el script (al final del body) se piden las categorías
 cargarCategorias();

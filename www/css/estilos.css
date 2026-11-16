@@ -218,3 +218,8 @@ input[type="text"] {
     padding: 2px 8px;
     font-size: 12px;
 }
+
+/* El nombre de la categoría se puede pulsar */
+#ulCategorias .nombre {
+    cursor: pointer;
+}
