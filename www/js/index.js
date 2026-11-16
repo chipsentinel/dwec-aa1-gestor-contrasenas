@@ -18,6 +18,7 @@ const btnAceptarCategoria = document.getElementById("btnAceptarCategoria");
 const lTituloSites = document.getElementById("lTituloSites");
 const lSinSites = document.getElementById("lSinSites");
 const btnNuevoSite = document.getElementById("btnNuevoSite");
+const txtBuscar = document.getElementById("txtBuscar");
 const tblSites = document.getElementById("tblSites");
 const tbodySites = document.getElementById("tbodySites");
 
@@ -84,6 +85,8 @@ function pintarCategorias(categorias) {
     for (const categoria of categorias) {
         ulCategorias.appendChild(crearItemCategoria(categoria));
     }
+
+    filtrar();      // EXTRA 2: si hay algo escrito en el buscador, se mantiene el filtro tras repintar
 }
 
 
@@ -250,6 +253,8 @@ function pintarSites(categoria) {
     for (const site of categoria.sites) {
         tbodySites.appendChild(crearFilaSite(site));
     }
+
+    filtrar();      // EXTRA 2: se mantiene el filtro del buscador
 }
 
 // EVENTO (clic en una categoría) -> api.getCategoria() con await -> REPINTAR la columna derecha
@@ -307,7 +312,49 @@ async function abrirCategoriaDeLaUrl() {
 }
 
 
-// ===== 11. Arranque =====
+// ===== 11. EXTRA 2: buscador =====
+
+// No se vuelve a pedir nada al servidor: se OCULTAN los elementos ya pintados que no contienen el texto.
+// Un texto contiene a otro con includes (lección 23) y se compara en minúsculas con toLowerCase (lección 23),
+// para que "git" encuentre "GitHub".
+function contiene(texto, buscado) {
+    return texto.toLowerCase().includes(buscado);
+}
+
+// Oculta las categorías cuyo NOMBRE no contiene lo buscado.
+// (el <li> también contiene el icono y el texto del botón "Eliminar", por eso se mira solo el <span class="nombre">)
+// querySelector busca dentro de un elemento (lección 49)
+function filtrarCategorias(buscado) {
+    // for...of sobre los <li> (lección 33)
+    for (const item of ulCategorias.querySelectorAll("li")) {
+        const nombre = item.querySelector(".nombre").textContent;
+        // NUEVO (no está en el lab): hidden = true oculta el elemento; hidden = false lo muestra
+        item.hidden = !contiene(nombre, buscado);
+    }
+}
+
+// Oculta los sites cuyo NOMBRE y USUARIO no contienen lo buscado
+function filtrarSites(buscado) {
+    for (const fila of tbodySites.querySelectorAll("tr")) {
+        const celdas = fila.querySelectorAll("td");
+        // celdas[0] es el nombre y celdas[1] el usuario (lección 24: posiciones de un array)
+        const texto = celdas[0].textContent + " " + celdas[1].textContent;
+        fila.hidden = !contiene(texto, buscado);
+    }
+}
+
+function filtrar() {
+    const buscado = txtBuscar.value.trim().toLowerCase();
+    filtrarCategorias(buscado);
+    filtrarSites(buscado);
+}
+
+// NUEVO (no está en el lab): el evento "input" salta cada vez que cambia lo escrito en el cuadro
+// (con cada letra), a diferencia de "blur", que solo salta al salir.
+txtBuscar.addEventListener("input", filtrar);
+
+
+// ===== 12. Arranque =====
 
 // Al cargarse el script (al final del body): se piden las categorías y, si hay, se abre la de la URL
 async function arrancar() {

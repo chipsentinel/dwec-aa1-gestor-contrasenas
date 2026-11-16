@@ -306,3 +306,11 @@ button.generar {
     font-size: 13px;
     display: block;
 }
+
+/* ===== 12. Buscador ===== */
+
+/* margin-left:auto empuja el buscador al extremo derecho de la barra */
+#txtBuscar {
+    margin-left: auto;
+    width: 260px;
+}
