@@ -134,6 +134,7 @@ td {
     color: var(--error);
     font-weight: bold;
     min-height: 20px;
+    margin: 0 0 8px;      /* sin el margen por defecto del <p>, para no separar tanto el título de la barra */
 }
 
 /* ===== 7. Mensajes de error y campos inválidos ===== */
