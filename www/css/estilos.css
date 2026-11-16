@@ -314,3 +314,18 @@ button.generar {
     margin-left: auto;
     width: 260px;
 }
+
+/* ===== 13. Icono de las categorías ===== */
+
+.dialogo select {
+    display: block;
+    width: 100%;
+    padding: 6px;
+    margin-bottom: 16px;
+    border: 1px solid var(--borde);
+    background: var(--panel);
+}
+
+#ulCategorias .icono {
+    margin-right: 4px;
+}

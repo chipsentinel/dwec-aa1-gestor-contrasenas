@@ -12,6 +12,7 @@ const ulCategorias = document.getElementById("ulCategorias");
 const btnNuevaCategoria = document.getElementById("btnNuevaCategoria");
 const fondoDialogo = document.getElementById("fondoDialogo");
 const txtCategoria = document.getElementById("txtCategoria");
+const cmbIcono = document.getElementById("cmbIcono");
 const lErrorCategoria = document.getElementById("lErrorCategoria");
 const btnCancelarCategoria = document.getElementById("btnCancelarCategoria");
 const btnAceptarCategoria = document.getElementById("btnAceptarCategoria");
@@ -61,9 +62,20 @@ function crearItemCategoria(categoria) {
         seleccionarCategoria(categoria.id);
     });
 
+    item.appendChild(crearIconoCategoria(categoria));
     item.appendChild(nombre);
     item.appendChild(crearBotonEliminarCategoria(categoria));
     return item;
+}
+
+// EXTRA 4: crea el <span> con el icono (emoji) de la categoría, que va antes del nombre.
+// || (lección 14: operadores lógicos) se usa aquí para dar un valor por defecto: si la categoría no
+// tiene icono (las creadas antes de este extra), categoria.icon es null y se usa la carpeta.
+function crearIconoCategoria(categoria) {
+    const icono = document.createElement("span");
+    icono.textContent = categoria.icon || "📁";
+    icono.classList.add("icono");
+    return icono;
 }
 
 // OBLIGATORIO 2: crea el botón para eliminar la categoría (lección 50: botones y click)
@@ -134,7 +146,8 @@ async function anadirCategoria() {
 
     try {
         // trim() quita los espacios sobrantes antes de enviar el nombre (lección 51)
-        await api.addCategoria(txtCategoria.value.trim());
+        // EXTRA 4: junto al nombre se envía el emoji elegido en la lista (cmbIcono.value)
+        await api.addCategoria(txtCategoria.value.trim(), cmbIcono.value);
         cerrarDialogoCategoria();
         await cargarCategorias();         // REPINTAR: se vuelve a pedir la lista ya con la nueva
     } catch (error) {

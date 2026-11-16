@@ -57,9 +57,10 @@ class Api {
         return await respuesta.json();
     }
 
-    // POST /categories con {name} -> crea la categoría y devuelve la creada (OBLIGATORIO 1)
-    async addCategoria(nombre) {
-        const respuesta = await this.#peticion("/categories", "POST", { name: nombre });
+    // POST /categories con {name, icon} -> crea la categoría y devuelve la creada (OBLIGATORIO 1)
+    // icono: el emoji elegido (EXTRA 4)
+    async addCategoria(nombre, icono) {
+        const respuesta = await this.#peticion("/categories", "POST", { name: nombre, icon: icono });
         return await respuesta.json();
     }
 

@@ -74,6 +74,22 @@
             <input type="text" id="txtCategoria">
             <!-- Aquí irá el mensaje de validación de este campo -->
             <p id="lErrorCategoria" class="error"></p>
+
+            <!-- EXTRA 4: icono de la categoría. <select> es una lista desplegable; su value es el emoji elegido
+                 (lección 51: value) -->
+            <label for="cmbIcono">Icono</label>
+            <select id="cmbIcono">
+                <option value="📁">📁 Carpeta</option>
+                <option value="🏦">🏦 Banco</option>
+                <option value="🛒">🛒 Compras</option>
+                <option value="🎮">🎮 Juegos</option>
+                <option value="💼">💼 Trabajo</option>
+                <option value="📧">📧 Correo</option>
+                <option value="🎬">🎬 Ocio</option>
+                <option value="🏠">🏠 Casa</option>
+                <option value="✈️">✈️ Viajes</option>
+                <option value="🔒">🔒 Seguridad</option>
+            </select>
             <div class="botones">
                 <button id="btnCancelarCategoria" type="button">Cancelar</button>
                 <button id="btnAceptarCategoria" type="button" class="principal">OK</button>
