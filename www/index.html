@@ -61,6 +61,22 @@
 
     </main>
 
+    <!-- OBLIGATORIO 1: cuadro "Nueva categoría" (Figura 2). Oculto hasta pulsar "Añadir categoría".
+         El fondo oscuro ocupa toda la pantalla y el cuadro va centrado encima -->
+    <div id="fondoDialogo" class="fondo" hidden>
+        <div class="dialogo">
+            <h3>Nueva categoría</h3>
+            <label for="txtCategoria">Nombre</label>
+            <input type="text" id="txtCategoria">
+            <!-- Aquí irá el mensaje de validación de este campo -->
+            <p id="lErrorCategoria" class="error"></p>
+            <div class="botones">
+                <button id="btnCancelarCategoria" type="button">Cancelar</button>
+                <button id="btnAceptarCategoria" type="button" class="principal">OK</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Los scripts van al final del body, cuando los elementos ya existen (lección 49). Orden: api, validación, pantalla -->
     <script src="js/api.js"></script>
     <script src="js/validacion.js"></script>

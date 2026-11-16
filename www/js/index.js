@@ -9,6 +9,12 @@
 // (lección 49 y 51: document.getElementById)
 const lMensaje = document.getElementById("lMensaje");
 const ulCategorias = document.getElementById("ulCategorias");
+const btnNuevaCategoria = document.getElementById("btnNuevaCategoria");
+const fondoDialogo = document.getElementById("fondoDialogo");
+const txtCategoria = document.getElementById("txtCategoria");
+const lErrorCategoria = document.getElementById("lErrorCategoria");
+const btnCancelarCategoria = document.getElementById("btnCancelarCategoria");
+const btnAceptarCategoria = document.getElementById("btnAceptarCategoria");
 
 
 // ===== 2. Datos de la pantalla =====
@@ -67,7 +73,49 @@ async function cargarCategorias() {
 }
 
 
-// ===== 6. Arranque =====
+// ===== 6. OBLIGATORIO 1: añadir una categoría =====
+
+// El cuadro "Nueva categoría" (Figura 2) está en el HTML, oculto con hidden. Se muestra y se oculta
+// cambiando hidden (true = oculto, false = visible). hidden está en la lista cerrada de cosas nuevas.
+
+// Abre el cuadro con el campo vacío y sin errores de una vez anterior (lección 51: value y textContent)
+function abrirDialogoCategoria() {
+    txtCategoria.value = "";
+    lErrorCategoria.textContent = "";
+    txtCategoria.classList.remove("invalido");
+    fondoDialogo.hidden = false;
+}
+
+function cerrarDialogoCategoria() {
+    fondoDialogo.hidden = true;
+}
+
+// EVENTO (clic en OK) -> VALIDAR -> api.addCategoria() con await -> REPINTAR
+// (lección 50: evento click; lección 51: leer y validar un cuadro de texto)
+async function anadirCategoria() {
+    // VALIDAR: el nombre es obligatorio (mínimo 3 caracteres). Si no vale, el cuadro sigue abierto
+    // y no se llama al servidor
+    if (!validarCampo(txtCategoria, 3, lErrorCategoria)) {
+        return;
+    }
+
+    try {
+        // trim() quita los espacios sobrantes antes de enviar el nombre (lección 51)
+        await api.addCategoria(txtCategoria.value.trim());
+        cerrarDialogoCategoria();
+        await cargarCategorias();         // REPINTAR: se vuelve a pedir la lista ya con la nueva
+    } catch (error) {
+        cerrarDialogoCategoria();         // el mensaje rojo está detrás del cuadro: se cierra para verlo
+        mostrarError("No se pudo añadir la categoría: " + error.message);
+    }
+}
+
+btnNuevaCategoria.addEventListener("click", abrirDialogoCategoria);
+btnCancelarCategoria.addEventListener("click", cerrarDialogoCategoria);
+btnAceptarCategoria.addEventListener("click", anadirCategoria);
+
+
+// ===== 7. Arranque =====
 
 // Al cargarse el script (al final del body) se piden las categorías
 cargarCategorias();

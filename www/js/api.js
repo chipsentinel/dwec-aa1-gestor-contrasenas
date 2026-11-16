@@ -56,4 +56,10 @@ class Api {
         // NUEVO (no está en el lab): respuesta.json() convierte el texto JSON recibido en objetos/arrays
         return await respuesta.json();
     }
+
+    // POST /categories con {name} -> crea la categoría y devuelve la creada (OBLIGATORIO 1)
+    async addCategoria(nombre) {
+        const respuesta = await this.#peticion("/categories", "POST", { name: nombre });
+        return await respuesta.json();
+    }
 }

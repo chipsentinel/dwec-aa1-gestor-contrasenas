@@ -152,3 +152,49 @@ input.invalido {
     border-color: var(--error);
     background: #fdecec;
 }
+
+/* ===== 8. Cuadro "Nueva categoría" (Figura 2) ===== */
+
+/* Fondo oscuro que cubre toda la ventana; el cuadro va centrado con flex */
+.fondo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dialogo {
+    background: var(--panel);
+    border: 1px solid var(--borde);
+    padding: 16px;
+    width: 280px;
+}
+
+.dialogo h3 {
+    margin: 0 0 12px;
+    color: var(--principal);
+}
+
+.dialogo label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+input[type="text"] {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 6px;
+    border: 1px solid var(--borde);
+}
+
+.botones {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
