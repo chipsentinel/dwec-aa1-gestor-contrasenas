@@ -1,29 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<!--
+    index.html: pantalla principal (como la Figura 1 del enunciado): arriba una barra con los botones
+    "Añadir categoría" y "Añadir site"; debajo, las categorías a la izquierda y los sites de la categoría a la derecha.
+    Solo contiene ESTRUCTURA (lección 49): ningún JavaScript dentro del HTML, ni <script> con código ni onclick=.
+    El código irá en archivos aparte (js/...) cargados al final del body.
+    Los id llevan prefijo según el tipo de elemento, como en el lab (lección 51): txt (cuadro de texto),
+    btn (botón), l (etiqueta de texto), ul (lista), tbl (tabla).
+-->
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de contraseñas</title>
 </head>
 <body>
-  <main>
-    <ul></ul>
-  </main>
-  <script>
-    let drawData = (data) => {
-      data.forEach(category => {
-        let parent = document.getElementsByTagName('ul')[0]
-        let child = document.createElement('li')
-        // child.innerText = JSON.stringify(category)
-        child.innerText = category.name
-        parent.appendChild(child)
-      })
-    }
 
-    fetch("http://localhost:3000/categories")
-      .then(res => res.json())
-      .then(data => drawData(data))
-  </script>
+    <header>
+        <h1>Gestor de contraseñas</h1>
+    </header>
+
+    <!-- Mensaje de error del servidor (en rojo). Empieza vacío y se rellena desde JavaScript -->
+    <p id="lMensaje"></p>
+
+    <!-- Barra de botones (Figura 1). "Añadir site" empieza desactivado: hace falta una categoría seleccionada -->
+    <div class="barra">
+        <button id="btnNuevaCategoria" type="button" class="principal">Añadir categoría</button>
+        <button id="btnNuevoSite" type="button" disabled>Añadir site</button>
+    </div>
+
+    <!-- main: contenedor de las dos columnas (lección 49) -->
+    <main>
+
+        <!-- COLUMNA IZQUIERDA: categorías. Aquí se pintan (una <li> por cada una) -->
+        <section id="columnaCategorias">
+            <h2>Categorías</h2>
+            <ul id="ulCategorias"></ul>
+        </section>
+
+        <!-- COLUMNA DERECHA: sites de la categoría seleccionada -->
+        <section id="columnaSites">
+            <h2 id="lTituloSites">Selecciona una categoría</h2>
+
+            <!-- Texto que se muestra cuando la categoría no tiene sites -->
+            <p id="lSinSites"></p>
+
+            <!-- OBLIGATORIO 3: tabla de sites. El <tbody> se rellena desde JavaScript -->
+            <table id="tblSites" hidden>
+                <thead>
+                    <tr>
+                        <th>Sitio</th>
+                        <th>Usuario</th>
+                        <th>Creado</th>
+                    </tr>
+                </thead>
+                <tbody id="tbodySites"></tbody>
+            </table>
+        </section>
+
+    </main>
+
 </body>
 </html>
